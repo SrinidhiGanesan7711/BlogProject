@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+from decouple import config 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,18 +86,21 @@ from decouple import config
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'BlogProject',
+#         'USER': 'postgres',
+#         'PASSWORD': 'tiger',
+#         'HOST': '127.0.0.1',  
+#         'PORT': '5432',       
+#     }
+# }
+ # if using python-decouple
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'BlogProject',
-        'USER': 'postgres',
-        'PASSWORD': 'tiger',
-        'HOST': '127.0.0.1',  
-        'PORT': '5432',       
-    }
+    'default': dj_database_url.parse(config("DATABASE_URL"))
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
