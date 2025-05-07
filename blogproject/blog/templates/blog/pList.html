@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+  <form method="get">
+    <input type="text" name="q" placeholder="Search by title" value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+  </form>
+  <a href="{% url 'postCreate' %}" class="btn btn-primary">Create New Post</a>
+  <ul>
+    {% for post in posts %}
+      <li>
+        <a href="{% url 'postDetail' post.pk %}">{{ post.title }}</a>
+        <small>({{ post.created_at }})</small>
+        <a href="{% url 'postEdit' post.pk %}">Edit</a>
+        <a href="{% url 'postDelete' post.pk %}">Delete</a>
+      </li>
+    {% empty %}
+      <p>No posts found.</p>
+    {% endfor %}
+  </ul>
+  <div>
+    {% if posts.has_previous %}
+      <a href="?page={{ posts.previous_page_number }}">&laquo; Previous</a>
+    {% endif %}
+    <span>Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+    {% if posts.has_next %}
+      <a href="?page={{ posts.next_page_number }}">Next &raquo;</a>
+    {% endif %}
+  </div>
+{% endblock %}
